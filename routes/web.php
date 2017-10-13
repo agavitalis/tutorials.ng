@@ -29,13 +29,16 @@ Auth::routes();
 
 
 
+//stusents controller
+Route::get('/stdindex', 'StudentController@index')->name('stdindex');
 
 Route::get('/students', 'StudentController@profile')->name('stdprofile');
 
-Route::post('/stdedit/{id}', 'StudentController@edit')->name('stdedit');
+Route::match(['get','post'],'/stdedit/{id?}', 'StudentController@edit')->name('stdedit');
 
-Route::post('/studentupload','StudentController@upload')->name('studentupload');
+Route::post('/studentupload/{id}','StudentController@upload')->name('studentupload');
 
+Route::get('/mycomments', 'StudentController@comment')->name('stdcomment');
 
 
 

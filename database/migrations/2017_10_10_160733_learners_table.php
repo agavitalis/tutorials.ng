@@ -15,6 +15,7 @@ class LearnersTable extends Migration
      {
          Schema::create('learners', function (Blueprint $table) {
              $table->increments('id');
+             $table->string('name')->unique();
              $table->string('email')->unique();
              $table->string('phone')->nullable();;
              $table->string('skills')->nullable();

@@ -147,7 +147,7 @@ class TutorController extends Controller
             $comments=DB::table('comments')->where('commented_for',$id)->get();
         //dd($tutor);
 //dd($comments);
-            return view('tutors.details',compact('tutor','comments'));
+            return view('Tutors.details',compact('tutor','comments'));
         }
     
 

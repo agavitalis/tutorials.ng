@@ -59,7 +59,7 @@
 						<p>Location:{{$tutor->state}}</p>						
 					</div>
 				</div>
-				<h4>Web Development--- <span>Ogbonna Vitalis</span></h4>
+				<h4>Web Development--- <span>{{$tutor->name}}</span></h4>
 				<p>I will teach you website development from scratch.</p>
 				<div class=" eme social-bnr-agileits">
 				<ul>
@@ -82,7 +82,7 @@
 		<div class="col-md-6 agileinfo_banner_bottom_right">
 			<div class="agileinfo_banner_bottom_right1">	
 				<h3>Signup as a Tutor Now!</h3>
-				<div class="agileinfo_banner_bottom_right1_grid">
+				<div class="agileinfo_banner_bottom_right1_grid o1">
 					<form action="{{ route('register') }}" method="post">	
 						{{ csrf_field() }}	
 						<input  name="typeOfUser" type="hidden" value="tutor">

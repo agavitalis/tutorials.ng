@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -28,12 +29,14 @@ class LoginController extends Controller
      public function redirectTo()
      {
 
-        if (\Auth::user()->typeOfUser=='tutor')
+        if (Auth::user()->typeOfUser =='tutor')
         {
-            return route('homepage');
+            return route('tutprofile');
         }
-
-        return route('homepage');
+        else
+        {
+            return route('stdindex');
+        }
      }
     /**
      * Create a new controller instance.

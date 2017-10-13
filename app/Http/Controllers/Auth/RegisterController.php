@@ -7,6 +7,9 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Auth;
+use App\Learner;
+use App\Tutor;
 
 class RegisterController extends Controller
 {
@@ -32,12 +35,15 @@ class RegisterController extends Controller
      public function redirectTo()
      {
 
-        if (\Auth::user()->typeOfUser=='tutor')
+        if (Auth::user()->typeOfUser =='tutor')
         {
             return route('tutprofile');
         }
+        else
+        {
+            return route('stdindex');
+        }
 
-        return route('stdprofile');
      }
 
     /**
@@ -75,15 +81,38 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        
+       
+        if( $data['typeOfUser'] == 'student')
+        {
+      
+           Learner::create([
+               'name' => $data['name'],
+               'email' => $data['email'],
+               'phone' => $data['phone'],
+              
+           ]);
 
-        return User::create([
+       }
+       elseif($data['typeOfUser'] == 'tutor')
+       {
+           Tutor::create([
+               'name' => $data['name'],
+               'email' => $data['email'],
+               'phone' => $data['phone'],
+               
+               
+           ]);
+       }
+
+        $user= User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'typeOfUser' => $data['typeOfUser'],
             'password' => bcrypt($data['password']),
         ]);
+
+        return $user;
       
     }
 }

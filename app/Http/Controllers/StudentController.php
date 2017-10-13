@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Auth;
+use Auth;
+use App\Learner;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -25,15 +27,39 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function index()
+     {
+         $learner=DB::table('learners')->where('email',Auth::User()->email)->first();
+         return view('Students.index',compact('learner'));
+     }
+
+
     public function profile()
     {
-        $comments=DB::table('comments')->where('commented_by',\Auth::User()->email)->get();
-        return view('students.profile',compact('comments'));
+        $learner=DB::table('learners')->where('email',Auth::User()->email)->first();
+        return view('Students.profile',compact('learner'));
     }
 
-    public function edit( Request $details, $id)
+
+
+    public function comment()
     {
-        if($id != null)
+        $learner=DB::table('learners')->where('email',Auth::User()->email)->first();
+        $comments=DB::table('comments')->where('commented_by',Auth::User()->email)->get();
+        return view('Students.activites',compact('comments','learner'));
+    }
+
+    public function edit( Request $details, $id=null)
+    {
+        if($details->isMethod('GET') )
+        {
+            //get the posts
+            $student=DB::table('learners')->where('email',Auth::user()->email)->first();
+            $learner=$student;
+            return view('Students.update', compact('student','learner'));
+        }
+        elseif ($details->isMethod('POST')) 
         {
           
            // validate($details, [
@@ -53,84 +79,68 @@ class StudentController extends Controller
 
            // ]);
 
-                   
-           //$update = users::findOrFail($id);
-           $user=\Auth::user();
+                
+           $student=DB::table('learners')->where('email',Auth::user()->email)->first();
+           $update = learner::findOrFail($student->id);
           
-           $user->name= $details->name;
+           $update->name= $details->name;
           
-           $user->phone= $details->phone;
-           $user->school= $details->school;
-           $user->skills= $details->skills;
-           $user->gig= $details->gig;
-           $user->education= $details->education;
-           $user->address= $details->address;
-           $user->state= $details->state;
-           $user->country= $details->country;
+           $update->phone= $details->phone;
+           $update->about= $details->about;
+          
+        
+           $update->education= $details->education;
+           $update->address= $details->address;
+           $update->state= $details->state;
+           $update->country= $details->country;
 
-           $user->save();
-           return redirect('/students');
-           //dd($user);
+           $update->save();
+           return back()->with('success','Profile Updated Succssfully');
+           
         }
     }
 
-        public function upload(Request $request){
+public function upload(Request $request, $id=null){
+                
+    if($request->hasFile('image'))
+    {
+    //I saved this guy and then used storage to grab his email 
+      $update = learner::findOrFail($id);
+
+      if($update->passport != null)
+      {
+        Storage::delete($update->passport);
+      }
+
+            $name= $request->image->getClientOriginalName();
+            $request->image->storeAs('public',$name);
+            $imageurl= Storage::url($name);
+
+      
+        $update->passport=$imageurl;               
+        $update->save();
+
+       
+
+        return back()->with('success','Profile Updated Succssfully');
+
+    }
+    else
+    {
+        return back()->with('error','Select a profile picture');
+    }
+           
+            // return $request->image->extension();
+                //return $request->image->path()
+                //return $request->image->store("image");
+    
+                //aliter
+    
+                //return Storage::putfile('public',$request->file('image'));
+                //to use the above add use illuminate\support\Facades\Storage
             
-                   
-                   //dd($request);
-                   //return $request->file('image');
-                   if($request->setas=="coverpics")
-                    {
-            
-            
-                           
-            
-                            if($request->hasFile('image'))
-                            {
-                            //I saved this guy and then used storage to grab his email 
-                            $request->file('image');
-                            $request->image->storeAs('public',\Auth::User()->email.'coverpics.'.$request->image->extension());
-                            $imageurl= Storage::url(\Auth::User()->email.'coverpics.'.$request->image->extension());
-            
-                                 $user=\Auth::user();
-                                 $user->coverpicture=$imageurl;               
-                                 $user->save();
-            
-                           
-            
-                            }
-                     }
-                  elseif($request->setas=="profilepics")
-                  {
-            
-                    if($request->hasFile('image'))
-                    {
-                    //I saved this guy and then used storage to grab his email 
-                    $request->file('image');
-                    $request->image->storeAs('public',\Auth::User()->email.'profilepics.'.$request->image->extension());
-                    $imageurl= Storage::url(\Auth::User()->email.'profilepics.'.$request->image->extension());
-            
-                         $user=\Auth::user();
-                         $user->passport=$imageurl;               
-                         $user->save();
-            
-                   
-            
-                    }
-            
-                  }
-                     
-                    // return $request->image->extension();
-                     //return $request->image->path()
-                     //return $request->image->store("image");
-            
-                     //aliter
-            
-                     //return Storage::putfile('public',$request->file('image'));
-                     //to use the above add use illuminate\support\Facades\Storage
-                  
-            
-                }
+    
+}
        
       
     

@@ -21,7 +21,7 @@ class TutorMiddleware
 
             if ( $typeOfUser !='tutor')
             {
-                return redirect('/');        
+                return back()->with('error','Access Not Granted');            
             }
             else
             {

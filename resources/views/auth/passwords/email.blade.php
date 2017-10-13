@@ -25,7 +25,7 @@
             <div class="col-md-8 col-sm-8  col-md-offset-2 col-sm-offset-2agileinfo_banner_bottom_right tab-pane fade in active" id="home" >
                 <div class="agileinfo_banner_bottom_right1">	
                     <h3>Recover your tutor Password!</h3>
-                    <div class="agileinfo_banner_bottom_right1_grid">
+                    <div class="agileinfo_banner_bottom_right1_grid o1">
                         @if (session('status'))
                             <div class="alert alert-success">
                                 {{ session('status') }}

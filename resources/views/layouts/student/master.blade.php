@@ -76,14 +76,21 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="{{ Auth::user()->passport }}" class="user-image" alt="User Image">
+            @if($learner->passport != null)
+              <img class="user-image img-responsive img-circle" src="{{ $learner->passport }}" alt="cover picture">
+              @else
+              <img class="user-image img-responsive img-circle" src="images/default.png" alt="cover picture">
+              @endif
               <span class="hidden-xs"> {{ Auth::user()->name }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-              <img src="{{ Auth::user()->passport }}" class="img-circle" alt="User Image">
-
+              @if($learner->passport != null)
+              <img class="profile-user-img img-responsive img-circle" src="{{ $learner->passport }}" alt="cover picture">
+              @else
+              <img class="profile-user-img img-responsive img-circle" src="images/default.png" alt="cover picture">
+              @endif
                 <p>
                 {{ Auth::user()->name }}
                 <small>Member since {{ Carbon\Carbon::parse(Auth::user()->created_at)->diffForHumans() }}</small>
@@ -118,7 +125,11 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-        <img src="{{ Auth::user()->passport }}" class="img-circle" alt="User Image">
+              @if($learner->passport != null)
+              <img class="profile-user-img img-responsive img-circle" src="{{ $learner->passport }}" alt="cover picture">
+              @else
+              <img class="profile-user-img img-responsive img-circle" src="images/default.png" alt="cover picture">
+              @endif
         </div>
         <div class="pull-left info">
           <p> {{ Auth::user()->name }}</p>
@@ -127,8 +138,11 @@
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
-        <li class="header">DASHBOARD</li>
-        <li><a href="#"><i class="fa fa-user"></i> <span>Profile</span></a></li>
+        <li class="header"><i class="fa fa-dashboard"></i>DASHBOARD</li>
+        <li><a href="/mycomments"><i class="fa fa-user"></i> <span>My Activies</span></a></li>
+        <li><a href="/students"><i class="fa fa-user"></i> <span>Profile</span></a></li>
+        <li><a href="/stdedit"><i class="fa fa-user"></i> <span>Update Profile</a></li>
+       
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -146,6 +160,20 @@
         <li class="active">User profile</li>
       </ol>
     </section>
+
+    @if ($message = Session::get('success'))
+          <div class="alert alert-success alert-dismissible" role="alert">
+             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ Session::get('success') }}
+          </div>
+        @endif
+
+        @if ($message = Session::get('error'))
+          <div class="alert alert-danger alert-dismissible" role="alert">
+             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ Session::get('error') }}
+          </div>
+        @endif
 
     @yield('content')
   </div>

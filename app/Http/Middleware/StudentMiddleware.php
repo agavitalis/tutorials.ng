@@ -20,11 +20,11 @@ class StudentMiddleware
         
                     if ( $typeOfUser !='student')
                     {
-                        return redirect('/tutors');        
+                        return back()->with('error','Access Not Granted');        
                     }
                      else
                      {
-                    return $next($request);
+                        return $next($request);
                      }
     }
 }

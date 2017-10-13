@@ -18,7 +18,7 @@
 				
 				
 				<div class=" agileinfo_banner_bottom_right1_grid">
-					<img  class="image-responsive xxc" src="{{$courses->picture}}" alt="">
+					<img  class="img-responsive xxc" src="{{$courses->picture}}" alt="">
 				</div>
 			
 		</div>

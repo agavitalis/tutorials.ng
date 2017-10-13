@@ -23,7 +23,7 @@
             <div class="col-md-8 col-sm-8  col-md-offset-2 col-sm-offset-2agileinfo_banner_bottom_right tab-pane fade in active" id="home" >
                 <div class="agileinfo_banner_bottom_right1">	
                     <h3>Login as a Tutor</h3>
-                    <div class="agileinfo_banner_bottom_right1_grid">
+                    <div class="agileinfo_banner_bottom_right1_grid o1">
 
                         <form method="post"  action="{{ route('login') }}">
                              {{ csrf_field() }}
@@ -53,7 +53,7 @@
             <div class="col-md-8 col-sm-8  col-md-offset-2 col-sm-offset-2agileinfo_banner_bottom_right tab-pane fade" id="menu1">
                 <div class="agileinfo_banner_bottom_right1">	
                     <h3>Login as a Student</h3>
-                    <div class="agileinfo_banner_bottom_right1_grid">
+                    <div class="agileinfo_banner_bottom_right1_grid o1">
 
                     <form method="post"  action="{{ route('login') }}">
                             {{ csrf_field() }}

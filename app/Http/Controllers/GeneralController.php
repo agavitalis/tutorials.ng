@@ -10,7 +10,7 @@ class GeneralController extends Controller
     //
     public function index(){
 
-        $tutors=DB::table('users')->where('typeOfUser','tutor')->paginate(20);
+        $tutors=DB::table('tutors')->paginate(20);
         //$tutors=DB::table('tutors')->paginate(20);
         $courses=DB::table('courses')->paginate(8);
         //forsearch
@@ -49,7 +49,7 @@ class GeneralController extends Controller
 
         $locations=DB::table('locations')->get();
         //dd($tutors);
-        return view('General.search',compact('tutors','courses'));
+        return view('General.search',compact('tutors','courses','allcourses'));
         
     }
 
